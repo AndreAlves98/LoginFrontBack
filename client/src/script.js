@@ -82,9 +82,7 @@ function checkForm() {
   const isValid = [...formItems].every((item) => {
     return item.className === "form-content";
   });
-  if (isValid) {
-    alert("Cadastrado com Sucesso!!");
-  }
+  return isValid;
 }
 
 function errorInput(input, message) {
@@ -113,7 +111,6 @@ function removeError(input) {
   formItem.className = "form-content";
 }
 
-
 // tirar o foco do erro após ajustado
 email.addEventListener("blur", () => {
   checkInputEmail();
@@ -123,10 +120,7 @@ username.addEventListener("blur", () => {
   checkInputUsername();
 });
 
-
-
 //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -140,23 +134,28 @@ form.addEventListener("submit", (event) => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    fetch('https://localhost:3000/auth/register', {
-      method: 'POST',
+    fetch("http://localhost:3000/auth/register", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: username, email, password, confirmpassword: password }),
+      body: JSON.stringify({
+        name: username,
+        email,
+        password,
+        confirmpassword: password,
+      }),
     })
-    .then(response => response.json())
-    .then(data => {
-      if (data.msg === 'Usuário criado com sucesso!') {
-        alert('Cadastrado com Sucesso!!');
-      } else {
-        alert('Erro ao cadastrar: ' + data.msg);
-      }
-    })
-    .catch((error) => {
-      console.error('Erro:', error);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.msg === "Usuário criado com sucesso!") {
+          alert("Cadastrado com Sucesso!!");
+        } else {
+          alert("Erro ao cadastrar: " + data.msg);
+        }
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+      });
   }
 });
